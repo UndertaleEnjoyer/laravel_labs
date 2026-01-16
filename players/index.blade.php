@@ -1,12 +1,13 @@
-<h1>Players</h1>
-
-<ul>
 @foreach($players as $player)
-    <li>
-        <a href="{{ route('players.show', $player->id) }}">
-            {{ $player->full_name }}
-        </a>
-        — {{ $player->team->name }}
-    </li>
+    <p>
+        {{ $player->full_name }}
+
+        <a href="{{ route('players.edit', $player->id) }}">Edit</a>
+
+        <form action="{{ route('players.destroy', $player->id) }}" method="POST" style="display:inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Delete</button>
+        </form>
+    </p>
 @endforeach
-</ul>

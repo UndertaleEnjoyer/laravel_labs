@@ -18,19 +18,23 @@ class MatchModel extends Model
         'team2_id',
     ];
 
-    // Команда-хозяин
     public function team1()
     {
         return $this->belongsTo(Team::class, 'team1_id');
     }
 
-    // Гостевая команда
     public function team2()
     {
         return $this->belongsTo(Team::class, 'team2_id');
     }
 
-    // MANY-TO-MANY: матч ↔ игроки через goals
+  
+    public function goals()
+    {
+        return $this->hasMany(Goal::class, 'match_id');
+    }
+
+    
     public function players()
     {
         return $this->belongsToMany(
@@ -38,6 +42,6 @@ class MatchModel extends Model
             'goals',
             'match_id',
             'player_id'
-        )->withPivot('minute')->withTimestamps();
+        )->withPivot('minute');
     }
 }
