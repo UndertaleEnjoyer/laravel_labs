@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class PlayerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $players = Player::with('team')->get();
-        return view('players.index', compact('players'));
+        
+        $perPage = $request->get('per_page', 5);
+
+        $players = Player::orderBy('id', 'desc')
+            ->paginate($perPage)
+            ->withQueryString(); 
+
+        return view('players.index', compact('players', 'perPage'));
     }
 
     public function show($id)
